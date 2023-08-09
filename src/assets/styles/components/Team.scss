@@ -1,0 +1,42 @@
+.team{
+    margin-top: 5vh;
+    margin-left: 10%;
+    width: 60%;
+    height: 15%;
+    display: inline-block;
+    border: 1px solid black;
+    border-radius: 10px;
+    text-align: center;
+}
+@media (max-width: 1920px) {
+    .team{
+        height: 12%;
+    }
+}
+@media (max-width: 1600px) {
+    .team{
+        margin-top: 3vh;
+        height: 15%;
+    }
+}
+@media (max-width: 1440px) {
+    .team{
+        height: 12%;
+    }
+}
+@media (max-width: 720px) {
+    .team{
+        margin-top: 1vh;
+        margin-left: 1%;
+        width: 97%;
+        height: 10%;
+    }
+}
+
+@media (max-width: 380px) {
+    .team{
+        margin-top: 3vh;
+        width: 96%;
+        height: 10vh;
+    }
+}

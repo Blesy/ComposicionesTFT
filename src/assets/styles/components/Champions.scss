@@ -1,0 +1,49 @@
+.champions{
+    margin-top: 2vh;
+    margin-left: 10%;
+    width: 60%;
+    height: 50vh;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+.champions .champion{
+    height: 10%;
+    margin-top: 0%;
+}
+@media (max-width: 1600px) {
+    .champions{
+        height: 64vh;
+    }
+}
+@media (max-width: 1440px) {
+    .champions{
+        height: 50vh;
+    }
+}
+@media (max-width: 720px) {
+    .champions{
+        margin-top: 0.5vh;
+        margin-left: 1%;
+        width: 97%;
+        height: 54vh;
+    }
+    .champions .champion{
+        height: 13%;
+        width: 9%;
+        font-size: 80%;
+    }
+}
+
+@media (max-width: 380px) {
+    .champions{
+        margin-top: 1vh;
+        width: 96%;
+        height: 55vh;
+    }
+    .champions .champion{
+        height: 10%;
+        font-size: 50%;
+    }
+}

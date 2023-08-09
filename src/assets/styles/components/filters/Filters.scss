@@ -1,0 +1,45 @@
+.filtros{
+    margin-top: 3vh;
+    margin-left: 10%;
+    width: 60%;
+    height: 12vh;
+    display: inline-block;
+    border: 1px solid black;
+    border-radius: 10px;
+    text-align: center;
+}
+.button {
+    padding: 10px;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+}
+.button span {
+    color: black;
+}
+@media (max-width: 720px) {
+    .filtros{
+        margin-top: 1vh;
+        margin-left: 1%;
+        width: 96%;
+        height: 8vh;
+    }
+    .button {
+        height: 4vh;
+    }
+    .button span {
+        font-size: xx-large;
+    }
+}
+
+@media (max-width: 380px) {
+    .filtros{
+        height: 10vh;
+    }
+    .button {
+        height: 2vh;
+    }
+    .button span {
+        font-size: small;
+    }
+}

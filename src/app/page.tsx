@@ -1,113 +1,143 @@
-import Image from 'next/image'
+"use client"
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+//Json data
+import Traits from '../data/rasgosAleanning.json'
+
+// Hooks
+import useInitialState from '../hooks/useinitialState';
+import teamState from '../hooks/teamState';
+
+// Componentes
+import '../assets/styles/App.scss';
+import Header from '../components/Header';
+import Container from '../components/Container';
+import Team from '../components/Team';
+import Champion from '../components/Champion';
+import Synergies from '../components/Synergies';
+import Trait from '../components/Trait';
+import Champions from '../components/Champions';
+import Banner from '../components/Banner';
+import Loading from '../components/Loading';
+import Comentarios from '../components/Comentarios';
+
+// Filtros de busqueda
+import Filters from '../components/filters/Filters';
+import F_Synergies from '../components/filters/F_Synergies';
+import F_Chosen from '../components/filters/F_Chosen';
+import F_Spatula from '../components/filters/F_Spatula';
+import F_Quantity from '../components/filters/F_Quantity';
+import F_Principal from '../components/filters/F_Principal';
+
+const CHAMPIONS = '/api/champions';
+const TRAITS = {...Traits}
 
 export default function Home() {
+    const initialState = useInitialState(CHAMPIONS)
+    const [team, setTeam] = useState([]);
+    const [traits, setTraits] = useState([]);
+    const [total, setTotal] = useState(0);
+
+    const add = async (prop) => {
+        let included = false;
+        let tempTeam = [];
+        for (const champ of team) {
+            tempTeam.push(champ);
+            if (champ.name === prop.name)
+                included = true;
+        }
+        if (!included)
+            tempTeam.push(prop);
+        //tempTeam = await getItems(tempTeam);
+        setTeam(tempTeam);
+        getTraits(tempTeam);
+    }
+    const rem = async (prop) => {
+        let tempTeam = [...team]
+        tempTeam.splice(prop, 1);
+        setTeam(tempTeam)
+        //await req(tempTeam, filters);
+        getTraits(tempTeam);
+    }
+    const getTraits = (tempTeam) => {
+        let teamTrait = {};
+        for (const array of tempTeam) {
+            ['Rasgo1', 'Rasgo2', 'Rasgo3'].forEach(rasgo => {
+                let value = array[rasgo];
+                teamTrait[value] = (teamTrait[value] || 0) + 1;
+            });    
+        }
+        delete teamTrait['cero']
+        let arrayTraits = Object.keys(teamTrait).map(val => {
+            let quality = ''
+            let net = 0
+            let arrComparators = TRAITS[val]
+            let quantity = teamTrait[val]
+            const qualities = arrComparators.length > 3 ? ['platinum', 'gold', 'silver', 'bronze'] : ['gold', 'silver', 'bronze'];
+
+            const element = arrComparators.find((comp, index) => {
+                if (quantity >= comp) {
+                    quality = qualities[index] || 'bronze';
+                    net = comp;
+                    return true;
+                }
+                return false;
+            });
+            let obj = { quantity, arrComparators, quality, net, name: val }
+            return obj 
+        })
+        const order = {'platinum': 1, 'gold': 2, 'silver': 3, 'bronze': 4, '': 5}
+        arrayTraits.sort((a, b) => order[a.quality] - order[b.quality]);
+        console.log(arrayTraits)
+        getTotal(arrayTraits);
+        setTraits(arrayTraits);
+    }
+    const getTotal = (tempTrait) => {
+        let sumTraits = 0;
+        tempTrait.forEach(element => {
+            sumTraits += element.net
+        });
+        setTotal(sumTraits);
+    }
+    
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className="App">
+            <Container>
+                 <Team>
+                    {
+                        team.length > 0 ?
+                        team.map((item, index) =>
+                            <Champion key={index} name={item.name} items={item.items} team={() => rem(index)} campeon={item} classes={"image pointer"}
+                            log={item} />
+                        ) : null
+                    }
+                </Team>
+                <Synergies total={total}>
+                    {
+                        traits.length > 0 ?
+                        traits.map((item) => 
+                            <Trait key={item.name} trait={item} />
+                        ) : null
+                    }
+                </Synergies>
+                <Champions>
+                    {
+                        initialState.map((item) => 
+                            <Champion key={item.name} name={item.name} team={(value) => {add(value)}} campeon={item}
+                            classes={!team.some(e => e.name === item.name) ? "image pointer" : "image gray"} />
+                        )
+                    }
+                </Champions>
+                {/* <Filters>
+                    <F_Chosen chosen={value => {let filter = {...filters}; filter.chosen = value; req(team, filter)}} />
+                    <F_Synergies synergies={value => {let filter = {...filters}; filter.synergie = value; req(team, filter)}} />
+                    <F_Principal principal={value => {let filter = {...filters}; filter.principal = value; req(team, filter)}} />
+                    <F_Spatula spatula={value => {let filter = {...filters}; filter.spatula = value; req(team, filter)}} />
+                    <F_Quantity quantity={value => {let filter = {...filters}; filter.numberChamps = value; req(team, filter)}} />
+                </Filters>
+                <Comentarios/> */}
+            </Container>
         </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
   )
 }

@@ -1,0 +1,226 @@
+{
+    "Darkin": 
+    {
+        "contador": 0,
+        "oro": 1,
+        "plata": 0,
+        "bronce": 0,
+        "espatula": false
+    },
+    "Demacia": 
+    {
+        "contador": 0,
+        "oro": 7,
+        "plata": 5,
+        "bronce": 3,
+        "espatula": true
+    },
+    "Empress": 
+    {
+        "contador": 0,
+        "oro": 1,
+        "plata": 0,
+        "bronce": 0,
+        "espatula": false
+    },
+    "Freljord": 
+    {
+        "contador": 0,
+        "oro": 4,
+        "plata": 3,
+        "bronce": 2,
+        "espatula": true
+    },
+    "Ionia": 
+    {
+        "contador": 0,
+        "oro": 9,
+        "plata": 6,
+        "bronce": 3,
+        "espatula": true
+    },
+    "Noxus": 
+    {
+        "contador": 0,
+        "oro": 9,
+        "plata": 6,
+        "bronce": 3,
+        "espatula": true
+    },
+    "Piltover": 
+    {
+        "contador": 0,
+        "oro": 6,
+        "plata": 3,
+        "bronce": 0,
+        "espatula": true
+    },
+    "Shadow Isles": 
+    {
+        "contador": 0,
+        "oro": 6,
+        "plata": 4,
+        "bronce": 2,
+        "espatula": true
+    },
+    "Shurima": 
+    {
+        "contador": 0,
+        "oro": 7,
+        "plata": 5,
+        "bronce": 3,
+        "espatula": true
+    },
+    "Targon": 
+    {
+        "contador": 0,
+        "oro": 4,
+        "plata": 3,
+        "bronce": 2,
+        "espatula": true
+    },
+    "Void": 
+    {
+        "contador": 0,
+        "oro": 8,
+        "plata": 6,
+        "bronce": 3,
+        "espatula": true
+    },
+    "Wanderer": 
+    {
+        "contador": 0,
+        "oro": 1,
+        "plata": 0,
+        "bronce": 0,
+        "espatula": false
+    },
+    "Yordle": 
+    {
+        "contador": 0,
+        "oro": 5,
+        "plata": 3,
+        "bronce": 0,
+        "espatula": false
+    },
+    "Zaun": 
+    {
+        "contador": 0,
+        "oro": 6,
+        "plata": 4,
+        "bronce": 2,
+        "espatula": true
+    },
+    "Bastion": 
+    {
+        "contador": 0,
+        "oro": 6,
+        "plata": 4,
+        "bronce": 2,
+        "espatula": true
+    },
+    "Bruiser": 
+    {
+        "contador": 0,
+        "oro": 6,
+        "plata": 4,
+        "bronce": 2,
+        "espatula": true
+    },
+    "Challenger": 
+    {
+        "contador": 0,
+        "oro": 6,
+        "plata": 4,
+        "bronce": 2,
+        "espatula": true
+    },
+    "Deadeye": 
+    {
+        "contador": 0,
+        "oro": 6,
+        "plata": 4,
+        "bronce": 2,
+        "espatula": true
+    },
+    "Gunner": 
+    {
+        "contador": 0,
+        "oro": 6,
+        "plata": 4,
+        "bronce": 2,
+        "espatula": true
+    },
+    "Invoker": 
+    {
+        "contador": 0,
+        "oro": 6,
+        "plata": 4,
+        "bronce": 2,
+        "espatula": true
+    },
+    "Juggernaut": 
+    {
+        "contador": 0,
+        "oro": 6,
+        "plata": 4,
+        "bronce": 2,
+        "espatula": true
+    },
+    "Multicaster": 
+    {
+        "contador": 0,
+        "oro": 4,
+        "plata": 2,
+        "bronce": 0,
+        "espatula": true
+    },
+    "Redeemer": 
+    {
+        "contador": 0,
+        "oro": 1,
+        "plata": 0,
+        "bronce": 0,
+        "espatula": true
+    },
+    "Rogue": 
+    {
+        "contador": 0,
+        "oro": 4,
+        "plata": 2,
+        "bronce": 0,
+        "espatula": true
+    },
+    "Slayer": 
+    {
+        "contador": 0,
+        "oro": 5,
+        "plata": 4,
+        "bronce": 2,
+        "espatula": true
+    },
+    "Sorcerer": 
+    {
+        "contador": 0,
+        "oro": 8,
+        "plata": 4,
+        "bronce": 2,
+        "espatula": true
+    },
+    "Strategist": 
+    {
+        "contador": 0,
+        "oro": 5,
+        "plata": 4,
+        "bronce": 2,
+        "espatula": true
+    },
+    "Technogenius": 
+    {
+        "contador": 0,
+        "oro": 1,
+        "plata": 0,
+        "bronce": 0,
+        "espatula": false
+    }
+}
