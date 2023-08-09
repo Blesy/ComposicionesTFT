@@ -1,9 +1,10 @@
 import React from 'react';
 import '../assets/styles/components/Team.scss';
 
-const Team = ({children}) => (
+const Team = props => (
     <div className="team">
-        {children}
+        <h2>{props.titulo}</h2>
+        {props.children}
     </div>
 );
 

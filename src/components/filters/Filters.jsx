@@ -8,9 +8,6 @@ const Filters = ({children}) => {
     return (
     <div className="filtros">
         {children}
-        <div className="button" onClick={refreshPage}>
-            <span>Limpiar</span>
-        </div>
     </div>
 )};
 

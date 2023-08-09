@@ -1,20 +1,13 @@
 import React, {useState} from 'react';
 import '../../assets/styles/components/filters/Select.scss';
-import totalState from '../../hooks/totalState';
 
 const F_Quantity = props => {
-    const Data = totalState();
-    const [state, setState] = useState({value: 9});
-
-    function handleChange(event) {    
-        setState({value: event.target.value});
-        props.quantity(event.target.value);
-    }
-
+    const Data = [3,4,5,6,7,8,9,10,11,12,13,14,15];
     return (
     <div className="f-select">
         <p>N° de campeones</p>
-        <select name="cantidad" id="cantidad" value={state.value} onChange={handleChange}>
+        <select name="cantidad" id="cantidad" value={props.quantity} 
+        onChange={(event) => props.changeSize(event.target.value)}>
             {
                 Data.length > 0 ? 
                 Data.map((item) => 

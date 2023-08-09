@@ -4,31 +4,27 @@ import axios from 'axios';
 
 //Json data
 import Traits from '../data/rasgosAleanning.json'
+import LISTA from '../data/lista.json'
 
 // Hooks
 import useInitialState from '../hooks/useinitialState';
-import teamState from '../hooks/teamState';
 
 // Componentes
 import '../assets/styles/App.scss';
-import Header from '../components/Header';
 import Container from '../components/Container';
 import Team from '../components/Team';
 import Champion from '../components/Champion';
 import Synergies from '../components/Synergies';
 import Trait from '../components/Trait';
 import Champions from '../components/Champions';
-import Banner from '../components/Banner';
-import Loading from '../components/Loading';
-import Comentarios from '../components/Comentarios';
+import Buttons from '../components/Buttons'
 
 // Filtros de busqueda
 import Filters from '../components/filters/Filters';
-import F_Synergies from '../components/filters/F_Synergies';
-import F_Chosen from '../components/filters/F_Chosen';
 import F_Spatula from '../components/filters/F_Spatula';
 import F_Quantity from '../components/filters/F_Quantity';
-import F_Principal from '../components/filters/F_Principal';
+import F_Weight from '../components/filters/F_Weight';
+import V_Spatula from '../components/filters/V_Spatula'
 
 const CHAMPIONS = '/api/champions';
 const TRAITS = {...Traits}
@@ -36,8 +32,17 @@ const TRAITS = {...Traits}
 export default function Home() {
     const initialState = useInitialState(CHAMPIONS)
     const [team, setTeam] = useState([]);
+    const [recomended, setRecomended] = useState([])
     const [traits, setTraits] = useState([]);
     const [total, setTotal] = useState(0);
+    const [fixed, setFixed] = useState(0);
+    const [maxLen, setMaxLen] = useState(9);
+    const [weight, setWeight] = useState(0);
+    const [emblemas, setEmblemas] = useState<string[]>([])
+
+    useEffect(() => {
+        getTraits(team)
+    }, [emblemas, team])
 
     const add = async (prop) => {
         let included = false;
@@ -51,14 +56,14 @@ export default function Home() {
             tempTeam.push(prop);
         //tempTeam = await getItems(tempTeam);
         setTeam(tempTeam);
-        getTraits(tempTeam);
+        //getTraits(tempTeam);
     }
     const rem = async (prop) => {
         let tempTeam = [...team]
         tempTeam.splice(prop, 1);
         setTeam(tempTeam)
         //await req(tempTeam, filters);
-        getTraits(tempTeam);
+        //getTraits(tempTeam);
     }
     const getTraits = (tempTeam) => {
         let teamTrait = {};
@@ -66,7 +71,13 @@ export default function Home() {
             ['Rasgo1', 'Rasgo2', 'Rasgo3'].forEach(rasgo => {
                 let value = array[rasgo];
                 teamTrait[value] = (teamTrait[value] || 0) + 1;
-            });    
+            });
+        }
+        if (emblemas.length > 0) {
+            emblemas.forEach(rasgo => {
+                let value = rasgo;
+                teamTrait[value] = (teamTrait[value] || 0) + 1;
+            });
         }
         delete teamTrait['cero']
         let arrayTraits = Object.keys(teamTrait).map(val => {
@@ -100,16 +111,73 @@ export default function Home() {
         });
         setTotal(sumTraits);
     }
+    const clear = () => {
+        setTeam([])
+        setTraits([])
+        setTotal(0)
+        setFixed(0)
+    }
+    const recomend = async (parameters) => {
+        let currentSolution = team.map(val => LISTA[val.index])
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({maxLen, currentSolution, weight, espatulas: emblemas, fixed})
+        };
+        
+        let result = await fetch(CHAMPIONS, requestOptions)
+        setRecomended(await result.json())
+    }
+    const apply = () => {
+        setTeam(recomended)
+        //getTraits(recomended)
+    }
+    const fix = (val) => {
+        let tempTeam = [...team]
+        let counter = fixed
+        let champToFix = tempTeam.splice(val, 1)[0];
+        if (val >= fixed) {
+            counter++
+            tempTeam.unshift(champToFix)
+        } else {
+            counter--
+            tempTeam.push(champToFix)
+        }
+        setFixed(counter)
+        setTeam(tempTeam)
+        //getTraits(tempTeam);
+    }
+    const addEmblems = (val: string) => {
+        let current = emblemas.length > 0 ? [...emblemas] : []
+        current.push(val)
+        setEmblemas(current)
+        //getTraits(team)
+    }
+    const remEmblems = (index: number) => {
+        let current = [...emblemas]
+        current.splice(index, 1)
+        setEmblemas(current)
+        //getTraits(team)
+    }
     
   return (
     <div className="App">
             <Container>
-                 <Team>
+                <Team titulo={'Recomended Team'}>
+                    {
+                        recomended.length > 0 ?
+                        recomended.map((item, index) =>
+                            <Champion key={index} name={item.name} campeon={item} classes={"image"} />
+                        ) : null
+                    }
+                </Team>
+                <Buttons team={() => clear()} recomend={(val) => recomend(val)} apply={() => apply()}/>
+                <Team titulo={'Current Team'}>
                     {
                         team.length > 0 ?
                         team.map((item, index) =>
-                            <Champion key={index} name={item.name} items={item.items} team={() => rem(index)} campeon={item} classes={"image pointer"}
-                            log={item} />
+                            <Champion key={index} name={item.name} team={() => rem(index)} campeon={item} classes={"image pointer"}
+                            pin={index < fixed ? 'fill' : 'blank'} fix={() => fix(index)} />
                         ) : null
                     }
                 </Team>
@@ -129,14 +197,12 @@ export default function Home() {
                         )
                     }
                 </Champions>
-                {/* <Filters>
-                    <F_Chosen chosen={value => {let filter = {...filters}; filter.chosen = value; req(team, filter)}} />
-                    <F_Synergies synergies={value => {let filter = {...filters}; filter.synergie = value; req(team, filter)}} />
-                    <F_Principal principal={value => {let filter = {...filters}; filter.principal = value; req(team, filter)}} />
-                    <F_Spatula spatula={value => {let filter = {...filters}; filter.spatula = value; req(team, filter)}} />
-                    <F_Quantity quantity={value => {let filter = {...filters}; filter.numberChamps = value; req(team, filter)}} />
+                <Filters>
+                    <F_Quantity quantity={maxLen} changeSize={(val: number) => setMaxLen(val)} />
+                    <F_Weight weight={weight} changeWeight={(val: number) => setWeight(val)}/>
+                    <F_Spatula addSpatula={(val: string) => addEmblems(val)}/>
+                    <V_Spatula actives={emblemas} remEmblem={((val:number) => remEmblems(val))} />
                 </Filters>
-                <Comentarios/> */}
             </Container>
         </div>
   )

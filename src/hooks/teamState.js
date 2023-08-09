@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
 
-const teamState = (team) => {
+const teamState = (api) => {
+    console.log('entra')
     const [ availables, setAvailables ] = useState([]);
-    let request = team.map(item => item.name);
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({champs: request})
+        body: JSON.stringify({maxLen: 10, currentSolution: [], weight: 0, espatulas: [], fixed: 0})
     };
     useEffect(async () => {
-        await fetch("https://sheltered-river-57888.herokuapp.com/findTeam", requestOptions)
+        await fetch(api, requestOptions)
         .then(response => response.json())
-        .then(data => setAvailables(data.map(item => item.name)));
+        .then(data => setAvailables(data));
     }, []);
+    console.log('casi')
     return availables;
 };
 
