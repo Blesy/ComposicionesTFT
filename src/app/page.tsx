@@ -186,7 +186,7 @@ export default function Home() {
                     {
                         traits.length > 0 ?
                         traits.map((item) => 
-                            <Trait key={item.name} trait={item} select={(val: string) => setSelected(val)}/>
+                            <Trait key={item.name} trait={item} select={(val: string) => setSelected(selected === val ? '' : val)}/>
                         ) : null
                     }
                 </Synergies>

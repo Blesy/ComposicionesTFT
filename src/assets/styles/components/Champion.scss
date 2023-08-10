@@ -26,6 +26,7 @@
 .image img{
     width: 100%;
     height: 95%;
+    box-sizing: border-box;
 }
 .pin {
     width: 50px;
@@ -37,6 +38,22 @@
 }
 .bluredgray {
     filter: grayscale(100%) blur(2px);
+}
+.border1 img{
+    border: 2.5px solid black;
+    
+}
+.border2 img{
+    border: 2.5px solid #125c2c;
+}
+.border3 img{
+    border: 2.5px solid #10386e;
+}
+.border4 img{
+    border: 2.5px solid #792a79;
+}
+.border5 img{
+    border: 2.5px solid #a38b23;
 }
 @media (max-width: 720px) {
     .champion{

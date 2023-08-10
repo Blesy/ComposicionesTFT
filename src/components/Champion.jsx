@@ -11,21 +11,22 @@ const Champion = props => {
     let pin = props.pin == 'fill' ? otherImages.pinFill : otherImages.pinBlank
     let selected = !RASGOS.includes(props.selected) && props.selected ? 'blured' : ''
     props.classes.includes('gray') && selected ? selected = 'bluredgray' : null
+    let border = ' border' + CHAMP.Costo
     return (
     <div className="champion">
         {
             !props.pin ?
             <p>{props.name}</p>:
             <Image src={pin} className='pin' alt='pin'
-            onClick={() => props.fix(props.campeon)}/>
+            onClick={() => props.fix(CHAMP)}/>
         }
         {
             props.team ? 
-            <div className={props.classes + ' ' + selected}
-                onClick={() => props.team(props.campeon)}>
+            <div className={props.classes + border + ' ' + selected}
+                onClick={() => props.team(CHAMP)}>
                 <Image src={Images[props.name.replace(/\s/g, '')]} alt={props.name}/>
             </div> :
-            <div className={props.classes}>
+            <div className={props.classes + border}>
             <Image src={Images[props.name.replace(/\s/g, '')]} alt={props.name}/>
         </div> 
         }
