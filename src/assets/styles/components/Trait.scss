@@ -76,7 +76,8 @@
 .tooltip {
     position: relative;
     display: inline-block;
-  }
+    cursor: pointer;
+}
   
 /* Tooltip text */
 .tooltip .tooltiptext {

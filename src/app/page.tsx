@@ -44,6 +44,7 @@ export default function Home() {
     const [weight, setWeight] = useState(0);
     const [emblemas, setEmblemas] = useState<string[]>([])
     const [score, setScore] = useState(0)
+    const [selected, setSelected] = useState('')
 
     const add = async (prop: any) => {
         let included = false;
@@ -185,7 +186,7 @@ export default function Home() {
                     {
                         traits.length > 0 ?
                         traits.map((item) => 
-                            <Trait key={item.name} trait={item} />
+                            <Trait key={item.name} trait={item} select={(val: string) => setSelected(val)}/>
                         ) : null
                     }
                 </Synergies>
@@ -193,7 +194,7 @@ export default function Home() {
                     {
                         initialState.map((item) => 
                             <Champion key={item.name} name={item.name} team={(value: MyObjType) => {add(value)}} campeon={item}
-                            classes={!team.some(e => e.name === item.name) ? "image pointer" : "image gray"} />
+                            classes={!team.some(e => e.name === item.name) ? "image pointer" : "image gray"} selected={selected} />
                         )
                     }
                 </Champions>

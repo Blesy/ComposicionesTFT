@@ -19,7 +19,7 @@ const Trait = props => {
     counter.pop()
     return (
     <div className="trait">
-        <div className="tooltip">
+        <div className="tooltip" onClick={() => props.select(props.trait.name)}>
             <span className="tooltiptext">{props.trait.name}</span>
             <div className="hexagon hexagon2">
                 <div className="hexagon-in1">
