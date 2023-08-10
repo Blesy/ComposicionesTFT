@@ -18,7 +18,7 @@ const F_Spatula = props => {
 
     return (
     <div className="f-select">
-        <p>Agregar Espatula</p>
+        <p className='paraph'>Add Emblem</p>
         <select name="espatula" id="espatula" value={state} onChange={handleChange}>
             {emblemas.map(val => 
                 <option key={val} value={val}>{val}</option>

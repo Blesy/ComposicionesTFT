@@ -26,6 +26,12 @@
     align-items: center;
     margin: 0.3vh 0;
 }
+@media (max-width: 720px) {
+    .buttons{
+        width: 90%;
+        margin-top: 1vh;
+    }
+}
 
 h3 {
     color: black;

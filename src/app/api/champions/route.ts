@@ -72,9 +72,12 @@ export async function POST(req: Request, res: Response) {
             // Enfriar el sistema
             temperature *= coolingRate;
         }
-        result = bestSolution
+        result = {
+            bestSolution: [...bestSolution],
+            bestScore
+        }
     } catch (error) {
-        res.status(500).send({err: error.message})
+        result = error?.message
         statusCode = 500
     }
     finally
@@ -94,8 +97,19 @@ function generateRandomNumber(MAXMULTIPLIER: number, arr, objects) {
     let num: number
     do {
         num = Math.floor(Math.random() * MAXMULTIPLIER)
-    } while (arr.includes(objects[num]))
+    } while (isObjectInArray(objects[num], arr))
     return num
+}
+
+function isObjectInArray(obj, array) {
+    return array.some(character => {
+        for (let key in obj) {
+            if (obj[key] !== character[key]) {
+                return false;  // Si alguna propiedad no coincide, el objeto no es igual
+            }
+        }
+        return true;  // Si todas las propiedades coinciden, el objeto es igual
+    });
 }
 
 function objectiveFunction(solution, comparator, weight: number, espatulas: string[]) {
@@ -125,7 +139,7 @@ function objectiveFunction(solution, comparator, weight: number, espatulas: stri
         let index = mappedComparator.indexOf(minDifference)
         totalDifference += frequency[key] >= comparator[key].slice(-1)[0] ? comparator[key][index] : 0
     }
-    totalDifference *= weight ? peso/weight+1 : 1
+    totalDifference *= weight ? peso*(weight/1000)+1 : 1
     return totalDifference;  // Queremos maximizar esta diferencia
 }
 
@@ -137,14 +151,6 @@ function generateNeighbor(solution, objects, fixed, MAXMULTIPLIER: number) {
     //let test = [...neighborNumbers] //test
     let random2 = generateRandomNumber(MAXMULTIPLIER, neighbor, objects)
     neighbor[random1] = objects[random2];
-    if (hasDuplicates(neighbor)) {
-        console.log(3, random1, random2, (new Set(neighbor)).size, neighbor.length)
-    } //testing
-    // }
 
     return neighbor
-}
-
-function hasDuplicates(array) {
-    return (new Set(array)).size !== array.length;
 }

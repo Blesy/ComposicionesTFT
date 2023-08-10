@@ -6,7 +6,7 @@ const F_Weight = props => {
 
     return (
     <div className="f-select">
-        <label htmlFor="weight">Peso Tiers</label>
+        <label htmlFor="weight">Tiers Weight</label>
         <input type="number" id="weight" name="weight" min="0" value={state}
         onChange={e => {
             let value = e.currentTarget.value

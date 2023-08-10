@@ -4,15 +4,15 @@ import '../assets/styles/components/Buttons.scss';
 const Buttons = props => (
     <aside className="buttons">
         <button className='btns'
-            onClick={event => props.team()}>
+            onClick={() => props.team()}>
             <h3>Clear</h3>
         </button>
         <button className='btns'
-            onClick={event => props.recomend(props.campeon)}>
+            onClick={() => props.recomend(props.campeon)}>
             <h3>Recomend</h3>
         </button>
         <button className='btns'
-            onClick={event => props.apply()}>
+            onClick={() => props.apply()}>
             <h3>Apply</h3>
         </button>
     </aside>

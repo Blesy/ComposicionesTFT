@@ -1,10 +1,8 @@
 .synergies{
-    margin-top: 5vh;
+    margin-top: 1vh;
     margin-right: 5%;
     width: 20%;
-    height: 64.5vh;
     float: right;
-    border: 1px solid black;
     border-radius: 10px;
     text-align: center;
     position: relative;
@@ -12,24 +10,13 @@
 .total{
     width: 100%;
     text-align: center;
-    position: absolute;
     bottom: 0;
+    margin-top: 2vh;
     margin-bottom: 10px;
-}
-@media (max-width: 1920px) {
-    .synergies{
-        height: 79.5vh;
-    }
 }
 @media (max-width: 1600px) {
     .synergies{
         margin-top: 3vh;
-        height: 79.2vh;
-    }
-}
-@media (max-width: 1440px) {
-    .synergies{
-        height: 64.5vh;
     }
 }
 
@@ -38,7 +25,6 @@
         margin-top: 0.5vh;
         margin-right: 1.7%;
         width: 97%;
-        height: 8.5vh;
     }
     .total {
         font-size: 100%;
@@ -50,7 +36,6 @@
     .synergies{
         margin-right: 2.5%;
         width: 96%;
-        height: 10vh;
     }
     .total {
         font-size: 50%;

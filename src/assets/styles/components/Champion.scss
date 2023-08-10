@@ -2,7 +2,7 @@
     text-align: center;
     display: inline-block;
     font-size: 75%;
-    width: 7%;
+    width: 8%;
     height: 40%;
     margin: 0 1%;
     margin-top: 1%;
@@ -22,6 +22,16 @@
 }
 .gray {
     filter: grayscale(100%);
+}
+
+@media (max-width: 720px) {
+    .champion{
+        font-size: 55%;
+        width: 10%;
+    }
+    .champion img{
+        width: 28%;
+    }
 }
 
 @media (max-width: 380px) {

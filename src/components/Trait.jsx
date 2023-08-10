@@ -24,7 +24,7 @@ const Trait = props => {
             <div className="hexagon hexagon2">
                 <div className="hexagon-in1">
                     <div className={icon + " hexagon-in2"}>
-                        <Image src={Images[props.trait.name]} alt={props.trait.name}/>
+                        <Image src={Images[props.trait.name.replace(/\s/g, '')]} alt={props.trait.name}/>
                     </div>
                 </div>
             </div>

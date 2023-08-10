@@ -1,69 +1,61 @@
-import adept from './adept.png';
-import assassin from './assassin.png';
-import blacksmith from './blacksmith.png';
-import brawler from './brawler.png';
-import cultist from './cultist.png';
-import daredevil from './daredevil.png';
-import dazzler from './dazzler.png';
-import divine from './divine.png';
-import dragonsoul from './dragonsoul.png';
-import duelist from './duelist.png';
-import dusk from './dusk.png';
-import elderwood from './elderwood.png';
-import emperor from './emperor.png';
-import enlightened from './enlightened.png';
-import exile from './exile.png';
-import fabled from './fabled.png';
-import fortune from './fortune.png';
-import hunter from './hunter.png';
-import keeper from './keeper.png';
-import mage from './mage.png';
-import moonlight from './moonlight.png';
-import mystic from './mystic.png';
-import ninja from './ninja.png';
-import shade from './shade.png';
-import sharpshooter from './sharpshooter.png';
-import slayer from './slayer.png';
-import spirit from './spirit.png';
-import syphoner from './syphoner.png';
-import theboss from './theboss.png';
-import tormented from './tormented.png';
-import vanguard from './vanguard.png';
-import warlord from './warlord.png';
+import Bastion from './bastion.png';
+import Bruiser from './bruiser.png';
+import Challenger from './challenger.png';
+import Darkin from './darkin.png';
+import Deadeye from './deadeye.png';
+import Demacia from './demacia.png';
+import Empress from './empress.png';
+import Freljord from './freljord.png';
+import Gunner from './gunner.png';
+import Invoker from './invoker.png';
+import Ionia from './ionia.png';
+import Juggernaut from './juggernaut.png';
+import Multicaster from './multicaster.png';
+import Noxus from './noxus.png';
+import Piltover from './piltover.png';
+import Redeemer from './redeemer.png';
+import Rogue from './rogue.png';
+import ShadowIsles from './shadowisles.png';
+import Shurima from './shurima.png';
+import Slayer from './slayer.png';
+import Sorcerer from './sorcerer.png';
+import Strategist from './strategist.png';
+import Targon from './targon.png';
+import Technogenius from './technogenius.png';
+import Void from './void.png';
+import Wanderer from './wanderer.png';
+import Yordle from './yordle.png';
+import Zaun from './zaun.png';
 
 const traitsImages = {
-    adept,
-    assassin,
-    blacksmith,
-    brawler,
-    cultist,
-    daredevil,
-    dazzler,
-    divine,
-    dragonsoul,
-    duelist,
-    dusk,
-    elderwood,
-    emperor,
-    enlightened,
-    exile,
-    fabled,
-    fortune,
-    hunter,
-    keeper,
-    mage,
-    moonlight,
-    mystic,
-    ninja,
-    shade,
-    sharpshooter,
-    slayer,
-    spirit,
-    syphoner,
-    theboss,
-    tormented,
-    vanguard,
-    warlord
+    Bastion,
+    Bruiser,
+    Challenger,
+    Darkin,
+    Deadeye,
+    Demacia,
+    Empress,
+    Freljord,
+    Gunner,
+    Invoker,
+    Ionia,
+    Juggernaut,
+    Multicaster,
+    Noxus,
+    Piltover,
+    Redeemer,
+    Rogue,
+    ShadowIsles,
+    Shurima,
+    Slayer,
+    Sorcerer,
+    Strategist,
+    Targon,
+    Technogenius,
+    Void,
+    Wanderer,
+    Yordle,
+    Zaun,
 }
 
 export default traitsImages;

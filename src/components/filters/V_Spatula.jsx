@@ -7,7 +7,7 @@ const V_Spatula = props => {
     let emblemas = props.actives
     return (
     <div className="f-select">
-        <div className="trait">
+        <div className="trait emblems">
             {
                 emblemas.length > 0 ?
                 emblemas.map((item, index) =>
@@ -15,7 +15,7 @@ const V_Spatula = props => {
                     <div className="hexagon hexagon2">
                         <div className="hexagon-in1">
                             <div className={"hexagon-in2"}>
-                                <Image src={Images[item]} alt={item}/>
+                                <Image src={Images[item.replace(/\s/g, '')]} alt={item}/>
                             </div>
                         </div>
                     </div>

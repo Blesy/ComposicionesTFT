@@ -1,6 +1,5 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 
 //Json data
 import Traits from '../data/rasgosAleanning.json'
@@ -39,6 +38,7 @@ export default function Home() {
     const [maxLen, setMaxLen] = useState(9);
     const [weight, setWeight] = useState(0);
     const [emblemas, setEmblemas] = useState<string[]>([])
+    const [score, setScore] = useState(0)
 
     useEffect(() => {
         getTraits(team)
@@ -117,7 +117,7 @@ export default function Home() {
         setTotal(0)
         setFixed(0)
     }
-    const recomend = async (parameters) => {
+    const recomend = async () => {
         let currentSolution = team.map(val => LISTA[val.index])
         const requestOptions = {
             method: 'POST',
@@ -125,12 +125,13 @@ export default function Home() {
             body: JSON.stringify({maxLen, currentSolution, weight, espatulas: emblemas, fixed})
         };
         
-        let result = await fetch(CHAMPIONS, requestOptions)
-        setRecomended(await result.json())
+        let data = await fetch(CHAMPIONS, requestOptions)
+        let result = await data.json()
+        setRecomended(result?.bestSolution)
+        setScore(result?.bestScore)
     }
     const apply = () => {
         setTeam(recomended)
-        //getTraits(recomended)
     }
     const fix = (val) => {
         let tempTeam = [...team]
@@ -145,25 +146,22 @@ export default function Home() {
         }
         setFixed(counter)
         setTeam(tempTeam)
-        //getTraits(tempTeam);
     }
     const addEmblems = (val: string) => {
         let current = emblemas.length > 0 ? [...emblemas] : []
         current.push(val)
         setEmblemas(current)
-        //getTraits(team)
     }
     const remEmblems = (index: number) => {
         let current = [...emblemas]
         current.splice(index, 1)
         setEmblemas(current)
-        //getTraits(team)
     }
     
   return (
     <div className="App">
             <Container>
-                <Team titulo={'Recomended Team'}>
+                <Team titulo={'Recomended Team'} score={score}>
                     {
                         recomended.length > 0 ?
                         recomended.map((item, index) =>
@@ -171,7 +169,7 @@ export default function Home() {
                         ) : null
                     }
                 </Team>
-                <Buttons team={() => clear()} recomend={(val) => recomend(val)} apply={() => apply()}/>
+                <Buttons team={() => clear()} recomend={() => recomend()} apply={() => apply()}/>
                 <Team titulo={'Current Team'}>
                     {
                         team.length > 0 ?
@@ -198,8 +196,8 @@ export default function Home() {
                     }
                 </Champions>
                 <Filters>
-                    <F_Quantity quantity={maxLen} changeSize={(val: number) => setMaxLen(val)} />
                     <F_Weight weight={weight} changeWeight={(val: number) => setWeight(val)}/>
+                    <F_Quantity quantity={maxLen} changeSize={(val: number) => setMaxLen(val)} />
                     <F_Spatula addSpatula={(val: string) => addEmblems(val)}/>
                     <V_Spatula actives={emblemas} remEmblem={((val:number) => remEmblems(val))} />
                 </Filters>
