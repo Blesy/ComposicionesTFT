@@ -11,7 +11,7 @@ const V_Spatula = props => {
             {
                 emblemas.length > 0 ?
                 emblemas.map((item, index) =>
-                <div className="tooltip cursor" onClick={() => props.remEmblem(index)}>
+                <div key={index} className="tooltip cursor" onClick={() => props.remEmblem(index)}>
                     <div className="hexagon hexagon2">
                         <div className="hexagon-in1">
                             <div className={"hexagon-in2"}>

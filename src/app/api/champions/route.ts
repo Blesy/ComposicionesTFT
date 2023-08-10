@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import LISTA from '../../../data/lista.json'
 import RASGOS from '../../../data/rasgosAleanning.json'
 
+interface MyObjType {
+    [key: string]: any;
+}
+
 export async function GET(req: Request, res: Response) {
     let statusCode: number = 0;
     let initResponse: any = {
@@ -76,8 +80,8 @@ export async function POST(req: Request, res: Response) {
             bestSolution: [...bestSolution],
             bestScore
         }
-    } catch (error) {
-        result = error?.message
+    } catch (err) {
+        result = 'Error'
         statusCode = 500
     }
     finally
@@ -93,7 +97,7 @@ export async function POST(req: Request, res: Response) {
     }
 }
 
-function generateRandomNumber(MAXMULTIPLIER: number, arr, objects) {
+function generateRandomNumber(MAXMULTIPLIER: number, arr: any[], objects: any[]) {
     let num: number
     do {
         num = Math.floor(Math.random() * MAXMULTIPLIER)
@@ -101,7 +105,7 @@ function generateRandomNumber(MAXMULTIPLIER: number, arr, objects) {
     return num
 }
 
-function isObjectInArray(obj, array) {
+function isObjectInArray(obj: any[], array: any[]) {
     return array.some(character => {
         for (let key in obj) {
             if (obj[key] !== character[key]) {
@@ -112,13 +116,13 @@ function isObjectInArray(obj, array) {
     });
 }
 
-function objectiveFunction(solution, comparator, weight: number, espatulas: string[]) {
+function objectiveFunction(solution: any[], comparator: any, weight: number, espatulas: string[]) {
     // Convertir valores de las propiedades a números y contar su frecuencia
-    let frequency = {};
+    let frequency: MyObjType = {};
     let peso = 0;
     solution.forEach(obj => {
         ['Rasgo1', 'Rasgo2', 'Rasgo3'].forEach(rasgo => {
-            let value = obj[rasgo];
+            let value: string = obj[rasgo];
             frequency[value] = (frequency[value] || 0) + 1;
         });
         peso += obj.Peso
@@ -131,7 +135,7 @@ function objectiveFunction(solution, comparator, weight: number, espatulas: stri
     // Calcular la diferencia con respecto a los objetivos
     let totalDifference = 0;
     for (let key in frequency) {
-        let mappedComparator = [...comparator[key].map(target => {
+        let mappedComparator = [...comparator[key].map((target: number) => {
             let filter = frequency[key] - target
             return filter >= 0 ? filter : filter * -1 + 1.1
         })]
@@ -143,7 +147,7 @@ function objectiveFunction(solution, comparator, weight: number, espatulas: stri
     return totalDifference;  // Queremos maximizar esta diferencia
 }
 
-function generateNeighbor(solution, objects, fixed, MAXMULTIPLIER: number) {
+function generateNeighbor(solution: any[], objects: any[], fixed: number, MAXMULTIPLIER: number) {
     let neighbor = [...solution];
 
     // Reemplazar un objeto aleatorio

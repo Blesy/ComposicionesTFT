@@ -25,14 +25,38 @@ import F_Quantity from '../components/filters/F_Quantity';
 import F_Weight from '../components/filters/F_Weight';
 import V_Spatula from '../components/filters/V_Spatula'
 
+
+// Interfaces y tipos
+type Traits = {
+    [key: string]: number[];
+}
+type Rankings = {
+    platinum: number;
+    gold: number;
+    silver: number;
+    bronze: number;
+    '': number;
+    [key: string]: number;
+};
+type ArrTraits = {
+    quantity: any;
+    arrComparators: number[];
+    quality: string;
+    net: number;
+    name: string;
+}
+interface MyObjType {
+    [key: string]: any;
+}
+
 const CHAMPIONS = '/api/champions';
-const TRAITS = {...Traits}
+const TRAITS: Traits = {...Traits}
 
 export default function Home() {
     const initialState = useInitialState(CHAMPIONS)
-    const [team, setTeam] = useState([]);
-    const [recomended, setRecomended] = useState([])
-    const [traits, setTraits] = useState([]);
+    const [team, setTeam] = useState<MyObjType[]>([]);
+    const [recomended, setRecomended] = useState<MyObjType[]>([])
+    const [traits, setTraits] = useState<ArrTraits[]>([]);
     const [total, setTotal] = useState(0);
     const [fixed, setFixed] = useState(0);
     const [maxLen, setMaxLen] = useState(9);
@@ -40,11 +64,7 @@ export default function Home() {
     const [emblemas, setEmblemas] = useState<string[]>([])
     const [score, setScore] = useState(0)
 
-    useEffect(() => {
-        getTraits(team)
-    }, [emblemas, team])
-
-    const add = async (prop) => {
+    const add = async (prop: any) => {
         let included = false;
         let tempTeam = [];
         for (const champ of team) {
@@ -54,57 +74,15 @@ export default function Home() {
         }
         if (!included)
             tempTeam.push(prop);
-        //tempTeam = await getItems(tempTeam);
         setTeam(tempTeam);
-        //getTraits(tempTeam);
     }
-    const rem = async (prop) => {
+    const rem = async (prop: number) => {
         let tempTeam = [...team]
         tempTeam.splice(prop, 1);
         setTeam(tempTeam)
-        //await req(tempTeam, filters);
-        //getTraits(tempTeam);
     }
-    const getTraits = (tempTeam) => {
-        let teamTrait = {};
-        for (const array of tempTeam) {
-            ['Rasgo1', 'Rasgo2', 'Rasgo3'].forEach(rasgo => {
-                let value = array[rasgo];
-                teamTrait[value] = (teamTrait[value] || 0) + 1;
-            });
-        }
-        if (emblemas.length > 0) {
-            emblemas.forEach(rasgo => {
-                let value = rasgo;
-                teamTrait[value] = (teamTrait[value] || 0) + 1;
-            });
-        }
-        delete teamTrait['cero']
-        let arrayTraits = Object.keys(teamTrait).map(val => {
-            let quality = ''
-            let net = 0
-            let arrComparators = TRAITS[val]
-            let quantity = teamTrait[val]
-            const qualities = arrComparators.length > 3 ? ['platinum', 'gold', 'silver', 'bronze'] : ['gold', 'silver', 'bronze'];
-
-            const element = arrComparators.find((comp, index) => {
-                if (quantity >= comp) {
-                    quality = qualities[index] || 'bronze';
-                    net = comp;
-                    return true;
-                }
-                return false;
-            });
-            let obj = { quantity, arrComparators, quality, net, name: val }
-            return obj 
-        })
-        const order = {'platinum': 1, 'gold': 2, 'silver': 3, 'bronze': 4, '': 5}
-        arrayTraits.sort((a, b) => order[a.quality] - order[b.quality]);
-        console.log(arrayTraits)
-        getTotal(arrayTraits);
-        setTraits(arrayTraits);
-    }
-    const getTotal = (tempTrait) => {
+    
+    const getTotal = (tempTrait: any[]) => {
         let sumTraits = 0;
         tempTrait.forEach(element => {
             sumTraits += element.net
@@ -133,7 +111,7 @@ export default function Home() {
     const apply = () => {
         setTeam(recomended)
     }
-    const fix = (val) => {
+    const fix = (val: number) => {
         let tempTeam = [...team]
         let counter = fixed
         let champToFix = tempTeam.splice(val, 1)[0];
@@ -157,6 +135,49 @@ export default function Home() {
         current.splice(index, 1)
         setEmblemas(current)
     }
+
+    useEffect(() => {
+        const getTraits = (tempTeam: any[]) => {
+            let teamTrait: MyObjType = {};
+            for (const array of tempTeam) {
+                ['Rasgo1', 'Rasgo2', 'Rasgo3'].forEach(rasgo => {
+                    let value = array[rasgo];
+                    teamTrait[value] = (teamTrait[value] || 0) + 1;
+                });
+            }
+            if (emblemas.length > 0) {
+                emblemas.forEach(rasgo => {
+                    let value = rasgo;
+                    teamTrait[value] = (teamTrait[value] || 0) + 1;
+                });
+            }
+            delete teamTrait['cero']
+            let arrayTraits = Object.keys(teamTrait).map(val => {
+                let quality = ''
+                let net = 0
+                let arrComparators = TRAITS[val]
+                let quantity = teamTrait[val]
+                const qualities = arrComparators.length > 3 ? ['platinum', 'gold', 'silver', 'bronze'] : ['gold', 'silver', 'bronze'];
+    
+                const element = arrComparators.find((comp, index) => {
+                    if (quantity >= comp) {
+                        quality = qualities[index] || 'bronze';
+                        net = comp;
+                        return true;
+                    }
+                    return false;
+                });
+                let obj = { quantity, arrComparators, quality, net, name: val }
+                return obj 
+            })
+            const order: Rankings = {'platinum': 1, 'gold': 2, 'silver': 3, 'bronze': 4, '': 5}
+            arrayTraits.sort((a, b) => order[a.quality] - order[b.quality]);
+            console.log(arrayTraits)
+            getTotal(arrayTraits);
+            setTraits(arrayTraits);
+        }
+        getTraits(team)
+    }, [emblemas, team])
     
   return (
     <div className="App">
@@ -190,7 +211,7 @@ export default function Home() {
                 <Champions>
                     {
                         initialState.map((item) => 
-                            <Champion key={item.name} name={item.name} team={(value) => {add(value)}} campeon={item}
+                            <Champion key={item.name} name={item.name} team={(value: MyObjType) => {add(value)}} campeon={item}
                             classes={!team.some(e => e.name === item.name) ? "image pointer" : "image gray"} />
                         )
                     }
