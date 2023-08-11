@@ -5,11 +5,11 @@ const Buttons = props => (
     <aside className="buttons">
         <button className='btns'
             onClick={() => props.team()}>
-            <h3>Clear</h3>
+            <h3>Clean</h3>
         </button>
         <button className='btns'
             onClick={() => props.recomend(props.campeon)}>
-            <h3>Recomend</h3>
+            <h3>Recommend</h3>
         </button>
         <button className='btns'
             onClick={() => props.apply()}>

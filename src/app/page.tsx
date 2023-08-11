@@ -164,7 +164,7 @@ export default function Home() {
   return (
     <div className="App">
             <Container>
-                <Team titulo={'Recomended Team'} score={score}>
+                <Team titulo={'Recommended Team'} score={score}>
                     {
                         recomended.length > 0 ?
                         recomended.map((item, index) =>
